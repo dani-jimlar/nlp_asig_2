@@ -76,7 +76,7 @@ def gradient_descent_example():
 
     # set number of iterations and learning rate
     num_iterations = 100
-    learning_rate = 0.8
+    learning_rate = 0.1
 
     # train model
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
