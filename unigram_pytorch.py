@@ -5,14 +5,13 @@ from numpy.typing import NDArray
 import torch
 from typing import List, Optional
 from torch import nn
+import matplotlib.pyplot as plt
 
 
 FloatArray = NDArray[np.float64]
 
 
-def onehot(
-    vocabulary: List[Optional[str]], token: Optional[str]
-) -> FloatArray:
+def onehot(vocabulary: List[Optional[str]], token: Optional[str]) -> FloatArray:
     """Generate the one-hot encoding for the provided token in the provided vocabulary."""
     embedding = np.zeros((len(vocabulary), 1))
     try:
@@ -72,23 +71,32 @@ def gradient_descent_example():
     x = torch.tensor(encodings.astype("float32"))
 
     # define model
+
     model = Unigram(len(vocabulary))
 
     # set number of iterations and learning rate
-    num_iterations =  # SET THIS
-    learning_rate =  # SET THIS
+    num_iterations = 100
+    learning_rate = 0.8
 
     # train model
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-    for _ in range(num_iterations):
+    list_loss = []
+    list_items = []
+    for i in range(num_iterations):
         p_pred = model(x)
         loss = -p_pred
         loss.backward(retain_graph=True)
         optimizer.step()
         optimizer.zero_grad()
+        list_loss.append(i)
+        list_items.append(loss.item())
+
+    plt.plot(list_loss, list_items)
+    plt.show()
 
     # display results
-    raise RuntimeError("Remove this error and create visualizations.")  # DO THIS
+    # raise RuntimeError("Remove this error and create visualizations.")  # DO THIS
+    # graph
 
 
 if __name__ == "__main__":
